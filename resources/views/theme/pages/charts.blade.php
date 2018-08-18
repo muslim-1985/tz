@@ -15,6 +15,7 @@
                             <div class="form-group">
                                 <label for="sel1">Select list:</label>
                                 <select name="sort" class="form-control" id="address" onchange="this.form.submit()">
+                                    <option></option>
                                     {{--данные выводим из конфига--}}
                                     @foreach($geoData as $data)
                                         <option value="{{  $data->address  }}">{{ $data->address }}</option>

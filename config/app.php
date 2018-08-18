@@ -222,8 +222,7 @@ return [
         0 => 'Kiev',
         1 => 'Tashkent',
         2 => 'Simferopol',
-        5 => 'Istambul',
-        6 => 'Kitab'
+        5 => 'Istambul'
     ]
 
 ];

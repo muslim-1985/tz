@@ -11,7 +11,6 @@ class Place extends Model
     public function getGeoDataDistance ($geoData, $client, $request)
     {
         $arr = [];
-        if(!empty($geoData)) {
             foreach ($geoData as $data) {
                 array_push($arr, $data->address);
             }
@@ -20,7 +19,7 @@ class Place extends Model
             $res = $client->request('GET', "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $areas . "
                                                     &destinations=" . $request->input('sort') . "&key=AIzaSyAuZ_74mBWm2Cr14Rb-oXw8a2xTgb9SSPA");
             $actualyGeoData = $res->getBody();
-        }
+
         return $actualyGeoData;
     }
 

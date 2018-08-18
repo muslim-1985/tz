@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Place;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
@@ -23,8 +24,11 @@ class PlaceController extends Controller
     public function sortGeoData (Client $client, Request $request, Place $place)
     {
         $geoData = Place::orderBy('address')->get();
-        $geoDataDistance = $place->getGeoDataDistance($geoData, $client, $request);
-        $sortGeoData = $place->sortGeoData(json_decode($geoDataDistance));
+        if(!empty($geoData)) {
+            $geoDataDistance = $place->getGeoDataDistance($geoData, $client, $request);
+            $sortGeoData = $place->sortGeoData(json_decode($geoDataDistance));
+        }
+        else throw new CustomException('Нет данных для обработки');
 
         $area = $request->input('sort');
 

@@ -20,7 +20,13 @@ class PlaceController extends Controller
         $geoData = Place::orderBy('address')->get();
         return view('theme.pages.charts', compact('geoData'));
     }
-
+    /**
+     * Sort geo data.
+     * @param  \Illuminate\Http\Request  $request
+     * @param \GuzzleHttp\Client $client
+     * @param Place
+     * @return \Illuminate\Http\Response
+     */
     public function sortGeoData (Client $client, Request $request, Place $place)
     {
         $geoData = Place::orderBy('address')->get();

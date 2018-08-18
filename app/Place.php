@@ -8,6 +8,14 @@ class Place extends Model
 {
     protected $fillable = ['address', 'lat', 'lng'];
 
+    /**
+     * Get geo data from api.
+     * @param  \Illuminate\Http\Request  $request
+     * @param \GuzzleHttp\Client $client
+     * @param array $geoData
+     * @return array
+     */
+
     public function getGeoDataDistance ($geoData, $client, $request)
     {
         $arr = [];
@@ -22,7 +30,11 @@ class Place extends Model
 
         return $actualyGeoData;
     }
-
+    /**
+     * Sort geo data.
+     * @param array $geoData
+     * @return array
+     */
     public function sortGeoData ($geoData)
     {
         $arr = [];

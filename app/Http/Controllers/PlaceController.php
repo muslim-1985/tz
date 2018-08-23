@@ -7,6 +7,7 @@ use App\Place;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Cache;
 
 class PlaceController extends Controller
 {
@@ -32,9 +33,10 @@ class PlaceController extends Controller
         $geoData = Place::orderBy('address')->get();
         if(!empty($geoData)) {
             $geoDataDistance = $place->getGeoDataDistance($geoData, $client, $request);
-            $sortGeoData = $place->sortGeoData(json_decode($geoDataDistance));
+            $sortGeoData = $place->sortGeoData($geoDataDistance);
         }
         else throw new CustomException('Нет данных для обработки');
+
 
         $area = $request->input('sort');
 

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Place extends Model
 {
@@ -13,7 +14,6 @@ class Place extends Model
      * @param  \Illuminate\Http\Request  $request
      * @param \GuzzleHttp\Client $client
      * @param array $geoData
-     * @return array
      */
 
     public function getGeoDataDistance ($geoData, $client, $request)
@@ -23,12 +23,15 @@ class Place extends Model
                 array_push($arr, $data->address);
             }
             $areas = implode('|', $arr);
-
-            $res = $client->request('GET', "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $areas . "
+            //кешируем запрос
+                if(Cache::has('geo')) {
+                    $res = $client->request('GET', "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $areas . "
                                                     &destinations=" . $request->input('sort') . "&key=AIzaSyAuZ_74mBWm2Cr14Rb-oXw8a2xTgb9SSPA");
-            $actualyGeoData = $res->getBody();
+                    $actualyGeoData = $res->getBody()->getContents();
+                    Cache::put('geo', $actualyGeoData, 60);
+                }
 
-        return $actualyGeoData;
+        return json_decode(Cache::get('geo'));
     }
     /**
      * Sort geo data.

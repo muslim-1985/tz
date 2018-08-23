@@ -24,7 +24,7 @@ class Place extends Model
             }
             $areas = implode('|', $arr);
             //кешируем запрос
-                if(Cache::has('geo')) {
+                if(!Cache::has('geo')) {
                     $res = $client->request('GET', "https://maps.googleapis.com/maps/api/distancematrix/json?origins=" . $areas . "
                                                     &destinations=" . $request->input('sort') . "&key=AIzaSyAuZ_74mBWm2Cr14Rb-oXw8a2xTgb9SSPA");
                     $actualyGeoData = $res->getBody()->getContents();
